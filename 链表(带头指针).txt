@@ -1,0 +1,88 @@
+//链队(带头指针)
+#include <stdio.h>
+#include <stdlib.h>
+
+#define OK 1
+#define TRUE 1
+#define ERROR 0
+#define FALSE 0
+
+#define MAXQSIZE 1000  //最大队列长度
+
+typedef struct elem {
+	int n;
+}elem;
+
+typedef struct Qnode {   //结点
+	elem data;
+	Qnode* nest;
+}Qnode,*QueuePtr;
+
+typedef struct {
+	QueuePtr front;  //队头指针
+	QueuePtr rear;   //队尾指针
+}LinkQueue;
+
+//初始化
+int InitQueue(LinkQueue &Q) {
+	Q.front = Q.rear = (QueuePtr)malloc(sizeof(Qnode));
+	Q.front->nest = NULL;
+	Q.rear->nest = NULL;
+	if (Q.front == NULL) return ERROR;
+	return OK;
+}
+
+//销毁
+int DestoryQueue(LinkQueue &Q) {
+	if (!Q.front) return ERROR;
+	QueuePtr p;
+	while (Q.front) {
+		p = Q.front->nest;
+		free(Q.front);
+		Q.front = p;
+	}
+	//或者直接用Q.rear
+	///while(Q.front){
+	//  Q.rear=Q.front->nest;
+	//  free(Q.front);
+	//  Q.front=Q.rear;
+	//}
+	return OK;
+}
+
+//添加元素(入栈)
+int AddQueue(LinkQueue &Q, elem* e) {
+	if (!Q.front) return ERROR;
+	QueuePtr p = (QueuePtr)malloc(sizeof(Qnode));
+	if (!p) return ERROR;
+	p->data = *e;
+	p->nest = Q.rear->nest;
+	Q.rear->nest = p;
+	Q.rear = p;
+	return OK;
+}
+
+//删除元素(出栈)
+int DeleteQueue(LinkQueue &Q, elem* e) {
+	if (!Q.front || !Q.front->nest) return ERROR;
+	QueuePtr p = Q.front->nest;
+	Q.front->nest = p->nest;
+	*e = p->data;
+	free(p);
+	if (!Q.front->nest) {
+		Q.rear = Q.front;
+	}
+	return OK;
+}
+
+//取队头元素
+int GetTop(LinkQueue &Q, elem* e) {
+	if (!Q.front || !Q.front->nest) return ERROR;
+	*e = Q.front->nest->data;
+	return OK;
+}
+
+int main()
+{
+	return 0;
+}
