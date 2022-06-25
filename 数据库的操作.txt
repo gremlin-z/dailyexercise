@@ -1,0 +1,321 @@
+select 1*1,2+2 
+from dual;
+
+show databases;
+
+use dbtext1;
+
+select * from employees;
+
+select id*3 "编号" from employees;
+
+select distinct id from employees;
+
+select distinct name from employees;
+
+describe employees;
+
+insert into employees values(1002,'周子明')
+
+show databases;
+
+use dbtext1;
+
+select * from employees;
+
+describe employees;
+
+insert into employees values(1009,null);
+
+use myemployees;
+
+show tables;
+
+select * from  locations;
+
+select * from departments;
+select * from employees;
+
+select id from employees;
+
+select name from employees;
+
+
+
+-- select distinct department_id from departments;
+
+select distinct name from employees;
+
+select distinct name name_s from employees;
+
+select '中国',id,name from employees;
+
+select * from employees where id =1001;
+
+use myemployees;
+
+show tables;
+
+select * from departments;
+
+select distinct department_id from departments;
+
+select * from departments;
+
+select * from departments where location_id >= 2000;
+
+desc departments;
+
+select 100 + '1' 
+from dual;
+
+select 100 + 'a'
+from dual;
+
+select 100 + null
+from dual;
+
+select 100 / 0,100 * 0,0 div 100
+from dual;
+select 10.0 % 9
+from dual;
+
+select 1 = 1, 1 = '1', 1 = '0'
+from dual;
+
+select 'a' = 'b'
+from dual;
+
+select 'a' = null 
+from dual;
+
+select null = null 
+from dual;
+select null <=> 1;
+
+select null <=> null;
+
+show tables;
+
+select * from departments;
+
+select department_id
+from departments
+where manager_id <=> null;
+
+select *
+from departments;
+
+select 1 != null;
+
+select 1 >= null;
+
+select department_id
+from departments
+where manager_id is not null;
+
+select department_id
+from departments
+where isnull(manager_id);
+
+select least('a',null);
+
+show tables;
+
+desc departments;
+
+select least(department_id,manager_id)
+from departments;
+
+select least(length('abcdef'),length('abcdf'));
+
+show databases;
+
+show tables;
+
+select *
+from employees;
+
+select employee_id 
+from employees
+where employee_id between 102 and 110;
+
+select employee_id 
+from employees
+where employee_id >=102 and employee_id <=110;
+
+select *
+from employees
+where employee_id not between 102 and 110;
+
+select *
+from employees
+where employee_id not in (101,108,110);
+
+select *
+from employees
+where employee_id like '%8%' and employee_id like '1%';
+
+select *
+from employees
+where employee_id like '_18';
+
+ select *
+ from employees
+ where employee_id like '_1_';
+ 
+show tables;
+
+ select *
+ from jobs;
+ 
+select *
+from jobs 
+order by max_salary desc;
+
+select *
+from jobs 
+order by min_salary asc,max_salary desc;
+
+select *
+from jobs 
+limit 0,5;
+
+select * 
+from jobs;
+
+select *
+from jobs 
+limit 1,2;
+
+select max_salary
+from jobs 
+order by max_salary desc 
+limit 1;
+
+show databases;
+
+show tables;
+
+select * 
+from employees;
+
+select *
+from employees 
+where id in (1001,1002)
+order by id desc
+limit 0,1;
+
+show tables;
+
+show databases;
+
+use myemployees;
+
+show tables;
+
+desc departments;
+
+desc employees;
+
+desc jobs;
+
+desc locations;
+
+select *
+from employees 
+where last_name = 'Abel';
+
+select *
+from departments 
+where department_id = 80;
+
+select * 
+from locations
+where location_id = 2500;
+
+select *
+from departments;
+
+select employee_id,department_name
+from employees,departments 
+where employees.department_id = departments.department_id ;
+
+select employee_id,department_name,dept.department_id
+from employees emp,departments dept
+where emp.department_id = dept.department_id ;
+
+select e.employee_id,e.last_name,d.department_name,l.city
+from employees e,departments d ,locations l 
+where e.department_id = d.department_id 
+and d.location_id = l.location_id ;
+
+select *
+from jobs;
+
+select emp.employee_id,emp.last_name,
+mgr.employee_id,mgr.last_name
+from employees emp,employees mgr
+where emp.manager_id = mgr.employee_id ;
+
+select employee_id,department_name
+from employees e left outer join departments d 
+on e.department_id = d.department_id;
+
+show databases;
+
+use myemployees;
+
+show tables;
+
+select *
+from departments d ;
+
+desc employees;
+
+select *
+from departments d
+left join employees e
+on d.department_id =e.department_id
+where e.department_id is null
+union 
+select *
+from departments d2 
+right join employees e2 
+on d2.department_id = e2.department_id ;
+
+select *
+from departments d join employees e 
+on d.department_id = e.department_id 
+and d.manager_id = e.manager_id ;
+
+select *
+from departments d natural join employees e;
+
+select e.job_id,d.location_id
+from employees e join departments d 
+on e.department_id = d.department_id 
+where e.department_id =90;
+
+desc employees;
+desc departments;
+desc locations;
+show tables;
+
+select e.last_name,d.department_name,d.location_id,l.city
+from employees e left join departments d 
+on e.department_id = d.department_id 
+left join locations l
+on d.location_id = l.location_id 
+where e.commission_pct is not null;
+
+desc employees;
+desc departments;
+desc locations;
+
+select e.last_name,e.job_id,d.department_id,d.department_name
+from employees e left join departments d
+on e.department_id = d.department_id
+left join locations l 
+on l.location_id = d.location_id 
+where l.city = 'Toronto';
